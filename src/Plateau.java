@@ -1,14 +1,7 @@
-import java.util.Arrays;
-import java.util.Scanner;
-
 /**
  * Classe représentant le plateau de jeu, les cellules et les coups
- * 
- * @author CAVALLI Davy - 21101243
- *
  */
-public class Plateau
-{
+public class Plateau {
 
 	public int[][] cellules;
 
@@ -16,11 +9,9 @@ public class Plateau
 	 * Constructeur créant un nouveau plateau[2][6] avec toutes les cellules
 	 * initilisées à 4 graines
 	 */
-	public Plateau()
-	{
+	public Plateau() {
 		cellules = new int[2][6];
-		for (int i = 0; i < 2; i++)
-		{
+		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 6; j++)
 				cellules[i][j] = 4;
 		}
@@ -70,11 +61,10 @@ public class Plateau
 
 	/**
 	 * Retourne le nombre de graines sur le plateau
-	 * 
+	 *
 	 * @return le nombre de graines sur le plateau
 	 */
-	public int NbGraines()
-	{
+	public int NbGraines() {
 		int resultat = 0;
 		for (int i = 0; i < 2; i++)
 		{
@@ -91,8 +81,7 @@ public class Plateau
 	 *            ligne représentant le joueur (0 ou 1)
 	 * @return le nombre de graines sur le plateau du joueur
 	 */
-	public int NbGraines(int i)
-	{
+	public int NbGraines(int i) {
 		int resultat = 0;
 		for (int j = 0; j < 6; j++)
 			resultat += cellules[i][j];
@@ -102,22 +91,21 @@ public class Plateau
 	/**
 	 * Affiche le plateau
 	 */
-	public void MonString()
-	{
-		System.out.println("Plateau actuel : ");
+	public void afficher() {
+		System.out.println("********* Plateau actuel *********");
 
-		System.out.println("  0 1 2 3 4 5");
+		System.out.println("--------------------------------");
 		for (int i = 0; i < 2; i++)
 		{
-			System.out.print("[");
+			System.out.print("||");
 			for (int j = 0; j < 6; j++)
-				System.out.print(" " + cellules[i][j]);
-			System.out.println(" ] J" + (i + 1));
+				System.out.print(" " + cellules[i][j] + " ||");
+			if(i==0)
+			    System.out.println(" IA");
+			else
+                System.out.println(" Joueur");
 		}
-		System.out.println("  0 1 2 3 4 5");
-
-		System.out.println();
-
+        System.out.println("--------------------------------");
 	}
 
 	/**
@@ -129,11 +117,9 @@ public class Plateau
 	 * @param side
 	 *            ligne sur laquelle choisir la cellule
 	 */
-	public int jouerCoup(int j, String side)
-	{
+	public int jouerCoup(int j, String side) {
 
-		if (side == "J1")
-		{
+		if (side == "J1") {
 
 			int NbGraine = cellules[0][j];
 
@@ -151,10 +137,8 @@ public class Plateau
 
 			// On répartie à partir de la cellule actuelle jusqu'à ne plus avoir
 			// de graines à répartir ou jusqu'à la cellule 0 du J1
-			for (int i = j - 1; i >= 0; i--)
-			{
-				if (NbGraine != 0)
-				{
+			for (int i = j - 1; i >= 0; i--) {
+				if (NbGraine != 0) {
 					ajoutGraine(0, i);
 					NbGraine--;
 				}
@@ -162,31 +146,24 @@ public class Plateau
 			}
 
 			// Si il reste des graines à répartir, on boucle tant qu'il en reste
-			while (NbGraine != 0)
-			{
+			while (NbGraine != 0) {
 				// On répartie sur le camp du joueur opposé
 				// Si on termine de répartir sur le camp adverse on essaye alors
 				// de manger les graines
-				for (int k = 0; k < 6; k++)
-				{
-					if (NbGraine != 0)
-					{
+				for (int k = 0; k < 6; k++) {
+					if (NbGraine != 0) {
 						ajoutGraine(1, k);
 						NbGraine--;
-						if (NbGraine == 0)
-						{
+						if (NbGraine == 0) {
 							return manger(1, k);
 						}
 					}
 				}
 
 				// On répartie sur son camp si il reste des graines
-				if (NbGraine != 0)
-				{
-					for (int i = 5; i > 0; i--)
-					{
-						if (NbGraine != 0 && i != j)
-						{
+				if (NbGraine != 0) {
+					for (int i = 5; i > 0; i--) {
+						if (NbGraine != 0 && i != j) {
 							ajoutGraine(0, i--);
 							NbGraine--;
 						}
@@ -197,8 +174,7 @@ public class Plateau
 
 		}
 		// identique au J1 excepté que l'on commence à répartir du côté du J2
-		else
-		{
+		else {
 
 			int NbGraine = cellules[1][j];
 
@@ -212,34 +188,26 @@ public class Plateau
 
 			setCellule(1, j, 0);
 
-			for (int i = j + 1; i < 6; i++)
-			{
-				if (NbGraine != 0)
-				{
+			for (int i = j + 1; i < 6; i++) {
+				if (NbGraine != 0) {
 					ajoutGraine(1, i);
 					NbGraine--;
 				}
 			}
 
-			while (NbGraine != 0)
-			{
-				for (int k = 5; k >= 0; k--)
-				{
-					if (NbGraine != 0)
-					{
+			while (NbGraine != 0) {
+				for (int k = 5; k >= 0; k--) {
+					if (NbGraine != 0) {
 						ajoutGraine(0, k);
 						NbGraine--;
-						if (NbGraine == 0)
-						{
+						if (NbGraine == 0) {
 							return manger(0, k);
 						}
 					}
 				}
 
-				for (int i = 0; i < 6; i++)
-				{
-					if (NbGraine != 0 && i != j)
-					{
+				for (int i = 0; i < 6; i++) {
+					if (NbGraine != 0 && i != j) {
 						ajoutGraine(1, i);
 						NbGraine--;
 					}
@@ -258,17 +226,13 @@ public class Plateau
 	 * @param cellulefinale
 	 *            cellule sur laquelle s'est arreté le joueur
 	 */
-	public int manger(int i, int cellulefinale)
-	{
+	public int manger(int i, int cellulefinale) {
 		int score = 0;
 
 		// Joueur 2 a terminé sur Joueur 1
-		if (i == 0)
-		{
-			for (int j = cellulefinale; j < 6; j++)
-			{
-				if (cellules[0][j] == 3 || cellules[0][j] == 2)
-				{
+		if (i == 0) {
+			for (int j = cellulefinale; j < 6; j++) {
+				if (cellules[0][j] == 3 || cellules[0][j] == 2) {
 					score += cellules[0][j];
 					cellules[0][j] = 0;
 				}
@@ -277,12 +241,9 @@ public class Plateau
 			}
 		}
 		// Joueur 1 a terminé sur Joueur 2
-		else
-		{
-			for (int j = cellulefinale; j >= 0; j--)
-			{
-				if (cellules[1][j] == 3 || cellules[1][j] == 2)
-				{
+		else {
+			for (int j = cellulefinale; j >= 0; j--) {
+				if (cellules[1][j] == 3 || cellules[1][j] == 2) {
 					score += cellules[1][j];
 					cellules[1][j] = 0;
 				}
@@ -308,8 +269,7 @@ public class Plateau
 	 *         moins un coup possible pour le nourrir mais pas celui demandé, -3
 	 *         si le plateau adverse est vide et qu'on ne peut pas le nourrir
 	 */
-	public int verifPlateau(int i, int j)
-	{
+	public int verifPlateau(int i, int j) {
 		// On vérifie si le plateau du J1 est vide, signifique que c'est le tour
 		// de J2
 		if (i == 0)
@@ -328,8 +288,7 @@ public class Plateau
 
 			// Sinon le plateau adverse est vide et case impossible à jouer. On
 			// vérifie donc si une case est possible
-			for (int k = 0; k < 6; k++)
-			{
+			for (int k = 0; k < 6; k++) {
 				if (cellules[1][k] + k > 6)
 					return -2;
 			}
@@ -344,8 +303,7 @@ public class Plateau
 		// On vérifie si le plateau du J2 est vide, signifique que c'est le tour
 		// de J1
 		// Même procédé que pour le tour de J2
-		else
-		{
+		else {
 			int grainesJoueur = 0;
 			for (int k = 0; k < 6; k++)
 				grainesJoueur += cellules[1][k];
@@ -360,8 +318,7 @@ public class Plateau
 
 			// Sinon le plateau adverse est vide et case impossible à jouer. On
 			// vérifie donc si une case est possible
-			for (int k = 0; k < 6; k++)
-			{
+			for (int k = 0; k < 6; k++) {
 				if (cellules[0][k] - k < 0)
 					return -2;
 			}
@@ -371,90 +328,5 @@ public class Plateau
 			// partie
 			return -3;
 		}
-	}
-
-	/**
-	 * Indique les coups possibles pour chaque joueur : 0 : coup impossible pour
-	 * ce joueur et cette cellule, 1 : coup possible pour ce joueur et cette
-	 * cellule
-	 * 
-	 * @return les coups possibles pour chaque joueur sous forme d'un tableau à
-	 *         deux dimensions avec valeurs 0 et 1
-	 */
-	public int[][] coupPossibles()
-	{
-		int[][] coup;
-		
-		coup = new int[2][6];
-
-		for (int i = 0; i < 2; i++)
-			for (int j = 0; j < 6; j++)
-				coup[i][j] = 0;
-
-		int NbGrainesJ1 = 0;
-
-		for (int j = 0; j < 6; j++)
-			NbGrainesJ1 += cellules[0][j];
-
-		int NbGrainesJ2 = 0;
-
-		for (int j = 0; j < 6; j++)
-			NbGrainesJ2 += cellules[1][j];
-
-		// Si le joueur 2 possède des graines, le joueur 1 peut jouer n'importe
-		// quelle cellule avec des graines
-		if (NbGrainesJ2 != 0)
-		{
-			for (int j = 0; j < 6; j++)
-				if (cellules[0][j] != 0)
-					coup[0][j] = 1;
-		}
-		// Sinon le joueur 1 devra nourrir l'adversaire obligatoirement
-		else
-		{
-			for (int j = 0; j < 6; j++)
-				if (cellules[0][j] - j < 0)
-					coup[0][j] = 1;
-		}
-
-		// Si le joueur 1 possède des graines, le joueur 2 peut jouer n'importe
-		// quelle cellule avec des graines
-		if (NbGrainesJ1 != 0)
-		{
-			for (int j = 0; j < 6; j++)
-				if (cellules[1][j] != 0)
-					coup[1][j] = 1;
-		}
-		// Sinon le joueur 2 devra nourrir l'dversaire obligatoirement
-		else
-		{
-			for (int j = 0; j < 6; j++)
-				if (cellules[1][j] + j > 6)
-					coup[1][j] = 1;
-		}
-
-		return coup;
-
-	}
-
-	/**
-	 * Renvoie en string le tableau des coups possibles
-	 * @param coup tableau des coups possibles
-	 * @return string du tableau des coups possibles
-	 */
-	public String coupPossiblesToString(int[][] coup)
-	{
-		String coups = "";
-
-		for (int i = 0; i < 2; i++)
-		{
-			coups += "J" + (i + 1) + " peut jouer les cases :";
-			for (int j = 0; j < 6; j++)
-				if (coup[i][j] == 1)
-					coups += " " + j;
-			coups += "\n";
-		}
-
-		return coups;
 	}
 }

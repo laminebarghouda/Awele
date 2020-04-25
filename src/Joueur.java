@@ -1,9 +1,5 @@
 /**
- * 
  * Classe représentant un joueur
- * 
- * @author 21101243 - Davy Cavalli
- *
  */
 public class Joueur
 {
@@ -12,15 +8,7 @@ public class Joueur
 	private int score;
 	private String side;
 
-	public Joueur()
-	{
-		this.nom = "Unknown";
-		this.score = 0;
-		this.side = "Unknown";
-	}
-
-	public Joueur(String nom, String side)
-	{
+	public Joueur(String nom, String side) {
 		this.nom = nom;
 		this.score = 0;
 		this.side = side;
@@ -61,9 +49,7 @@ public class Joueur
 	 * Affichage du joueur (nom, score et son side)
 	 */
 	@Override
-	public String toString()
-	{
-		return "Joueur [nom : " + nom + " , score = " + score + " , side : "
-				+ side + " ]";
+	public String toString() {
+		return "Joueur [nom : " + nom + " , score = " + score + " ]";
 	}
 }
