@@ -17,12 +17,16 @@ public class Awale {
 
     // Determiner le gagnat de la partie
     private static void resultatFinal(Joueur j1, Joueur j2){
+        System.out.println("~~~~~~~~~ Scores Finales ~~~~~~~~~");
+        System.out.println(j1.getNom() + " : " + j1.getScore());
+        System.out.println(j1.getNom() + " : " + j2.getScore());
         if (j1.getScore() > j2.getScore())
             System.out.println("IA l'emporte");
         else if (j1.getScore() < j2.getScore())
             System.out.println("Joueur l'emporte");
         else
             System.out.println("Egalité");
+        System.out.println("~~~~~~~~~~~~~~~~~~");
     }
 
 

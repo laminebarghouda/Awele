@@ -50,6 +50,6 @@ public class Joueur
 	 */
 	@Override
 	public String toString() {
-		return "Joueur [nom : " + nom + " , score = " + score + " ]";
+		return "Joueur [ nom : " + nom + " | score = " + score + " ]";
 	}
 }
